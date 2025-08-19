@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { simulateGPTResponse } from '../../utils/ai';
+import { simulateGPTResponse } from '@/utils/ai';
 
 export async function POST(request: NextRequest) {
   try {

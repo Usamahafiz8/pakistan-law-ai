@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Scale, Trash2, Send, Bot, User } from 'lucide-react';
-import { ChatMessage } from '../types/chat';
-import { simulateGPTResponse } from '../utils/ai';
+import { ChatMessage } from '@/types/chat';
+import { simulateGPTResponse } from '@/utils/ai';
 
 export default function Home() {
   const [messages, setMessages] = useState<ChatMessage[]>([

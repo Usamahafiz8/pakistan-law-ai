@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 
@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   description: 'A ChatGPT-like interface for Legal AI for Pakistan - providing accurate legal information about Pakistani law',
   keywords: 'legal, pakistan, chat, ai, gpt, law, constitution, criminal-law, civil-law, family-law, tax-law, labor-law, cybercrime',
   authors: [{ name: 'Legal AI for Pakistan' }],
-  viewport: 'width=device-width, initial-scale=1',
   robots: 'index, follow',
   openGraph: {
     title: 'Legal AI for Pakistan - Chat Interface',
@@ -22,6 +21,11 @@ export const metadata: Metadata = {
     title: 'Legal AI for Pakistan - Chat Interface',
     description: 'Get accurate legal information about Pakistani law with our AI assistant',
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
