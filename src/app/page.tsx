@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Scale, Trash2, Send, Bot, User } from 'lucide-react';
-import { ChatMessage } from '@/types/chat';
-import { simulateGPTResponse } from '@/utils/ai';
+import { ChatMessage } from '../types/chat';
+import { simulateGPTResponse } from '../utils/ai';
 
 export default function Home() {
   const [messages, setMessages] = useState<ChatMessage[]>([
@@ -45,7 +45,12 @@ Ask me any legal question related to Pakistani law, and I'll provide accurate in
     if (savedMessages) {
       try {
         const parsedMessages = JSON.parse(savedMessages);
-        setMessages(parsedMessages);
+        // Convert timestamp strings back to Date objects
+        const messagesWithDates = parsedMessages.map((msg: any) => ({
+          ...msg,
+          timestamp: new Date(msg.timestamp)
+        }));
+        setMessages(messagesWithDates);
       } catch (error) {
         console.error('Error loading chat history:', error);
       }
@@ -169,7 +174,12 @@ Ask me any legal question related to Pakistani law, and I'll provide accurate in
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Ensure date is a valid Date object
+    const dateObj = date instanceof Date ? date : new Date(date);
+    if (isNaN(dateObj.getTime())) {
+      return 'Just now';
+    }
+    return dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
