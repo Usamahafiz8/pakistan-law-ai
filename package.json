@@ -1,0 +1,56 @@
+{
+  "name": "legal-ai-pakistan-chat",
+  "version": "1.0.0",
+  "description": "A ChatGPT-like interface for Legal AI for Pakistan - providing accurate legal information about Pakistani law",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "eslint": "^8.51.0",
+    "eslint-config-next": "^14.0.0",
+    "typescript": "^5.2.0"
+  },
+  "keywords": [
+    "legal",
+    "pakistan",
+    "chat",
+    "ai",
+    "gpt",
+    "law",
+    "constitution",
+    "criminal-law",
+    "civil-law",
+    "family-law",
+    "tax-law",
+    "labor-law",
+    "cybercrime",
+    "nextjs",
+    "react"
+  ],
+  "author": "Legal AI for Pakistan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/legal-ai-pakistan-chat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/legal-ai-pakistan-chat/issues"
+  },
+  "homepage": "https://github.com/your-username/legal-ai-pakistan-chat#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
