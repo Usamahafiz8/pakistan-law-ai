@@ -5,10 +5,18 @@ export interface ChatMessage {
   timestamp: Date;
 }
 
-export interface ChatState {
+export interface ChatThread {
+  id: string;
+  title: string;
   messages: ChatMessage[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface ChatState {
+  threads: ChatThread[];
+  activeThreadId: string | null;
   isLoading: boolean;
-  error: string | null;
 }
 
 export interface SearchResult {

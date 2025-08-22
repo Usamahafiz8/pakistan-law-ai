@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 import {
   MagnifyingGlassIcon,
   BookOpenIcon,
@@ -17,8 +18,12 @@ import {
   AcademicCapIcon,
   PhoneIcon,
   EnvelopeIcon,
-  MapPinIcon
+  MapPinIcon,
+  PlusIcon,
+  TrashIcon,
+  PaperAirplaneIcon
 } from '@heroicons/react/24/outline';
+import { ChatMessage, ChatThread } from '@/types/chat';
 
 // Sample data for acts and laws
 const actsData = [
@@ -121,9 +126,11 @@ const searchResults = [
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
-  const [aiQuery, setAiQuery] = useState('');
-  const [aiResponse, setAiResponse] = useState('');
+  const [chatThreads, setChatThreads] = useState<ChatThread[]>([]);
+  const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
+  const [currentMessage, setCurrentMessage] = useState('');
   const [isAiLoading, setIsAiLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,28 +139,135 @@ export default function Home() {
     }
   };
 
+  // Helper functions for chat management
+  const createNewThread = () => {
+    const newThread: ChatThread = {
+      id: Date.now().toString(),
+      title: 'New Conversation',
+      messages: [],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    setChatThreads(prev => [newThread, ...prev]);
+    setActiveThreadId(newThread.id);
+    setCurrentMessage('');
+  };
+
+  const deleteThread = (threadId: string) => {
+    setChatThreads(prev => prev.filter(thread => thread.id !== threadId));
+    if (activeThreadId === threadId) {
+      setActiveThreadId(chatThreads.length > 1 ? chatThreads[1]?.id || null : null);
+    }
+  };
+
+  const updateThreadTitle = (threadId: string, title: string) => {
+    setChatThreads(prev => prev.map(thread => 
+      thread.id === threadId 
+        ? { ...thread, title, updatedAt: new Date() }
+        : thread
+    ));
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatThreads]);
+
   const handleAiSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!aiQuery.trim()) return;
+    if (!currentMessage.trim() || !activeThreadId) return;
 
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: currentMessage,
+      timestamp: new Date()
+    };
+
+    // Store the message content before clearing it
+    const messageToSend = currentMessage;
+
+    // Add user message to thread
+    setChatThreads(prev => prev.map(thread => 
+      thread.id === activeThreadId 
+        ? { 
+            ...thread, 
+            messages: [...thread.messages, userMessage],
+            updatedAt: new Date(),
+            title: thread.messages.length === 0 ? currentMessage.slice(0, 30) + '...' : thread.title
+          }
+        : thread
+    ));
+
+    setCurrentMessage('');
     setIsAiLoading(true);
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: aiQuery }),
+        body: JSON.stringify({ message: messageToSend }),
       });
 
       if (response.ok) {
         const data = await response.json();
-        setAiResponse(data.response);
+        const aiMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: data.response,
+          timestamp: new Date()
+        };
+        // Add AI response to thread
+        setChatThreads(prev => prev.map(thread => 
+          thread.id === activeThreadId 
+            ? { 
+                ...thread, 
+                messages: [...thread.messages, aiMessage],
+                updatedAt: new Date()
+              }
+            : thread
+        ));
       } else {
-        setAiResponse('Sorry, I encountered an error. Please try again.');
+        console.error('API response not ok:', response.status);
+        const errorMessage: ChatMessage = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: 'Sorry, I encountered an error. Please try again.',
+          timestamp: new Date()
+        };
+
+        setChatThreads(prev => prev.map(thread => 
+          thread.id === activeThreadId 
+            ? { 
+                ...thread, 
+                messages: [...thread.messages, errorMessage],
+                updatedAt: new Date()
+              }
+            : thread
+        ));
       }
     } catch (error) {
-      setAiResponse('Sorry, I encountered an error. Please try again.');
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: 'Sorry, I encountered an error. Please try again.',
+        timestamp: new Date()
+      };
+
+      setChatThreads(prev => prev.map(thread => 
+        thread.id === activeThreadId 
+          ? { 
+              ...thread, 
+              messages: [...thread.messages, errorMessage],
+              updatedAt: new Date()
+            }
+          : thread
+      ));
     } finally {
       setIsAiLoading(false);
     }
@@ -488,95 +602,193 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI Assistant Section */}
-      <section id="ai" className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 px-4">AI Legal Assistant</h2>
-            <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
-              Ask questions about Pakistan's Acts and Laws in plain language
-            </p>
-          </div>
+             {/* AI Assistant Section */}
+       <section id="ai" className="py-16 bg-white">
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="text-center mb-12">
+             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 px-4">AI Legal Assistant</h2>
+             <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
+               Multi-threaded chat with AI assistant for Pakistan's Acts and Laws
+             </p>
+           </div>
 
-          <div className="max-w-4xl mx-auto px-4">
-                          <div className="bg-gray-50 p-4 sm:p-6 lg:p-8 rounded-lg">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center mb-6 gap-4">
-                  <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <ChatBubbleLeftRightIcon className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Legal Query Assistant</h3>
-                    <p className="text-gray-600 text-sm sm:text-base">Hello! I'm your AI legal assistant for Pakistan's Acts and Laws. How can I help you understand legal matters today?</p>
-                  </div>
-                </div>
+           <div className="max-w-6xl mx-auto px-4">
+             <div className="bg-gray-50 rounded-lg overflow-hidden">
+               {/* Chat Header */}
+               <div className="bg-green-600 text-white p-4 sm:p-6">
+                 <div className="flex items-center justify-between">
+                   <div className="flex items-center gap-3">
+                     <ChatBubbleLeftRightIcon className="w-6 h-6" />
+                     <div>
+                       <h3 className="text-lg sm:text-xl font-semibold">Legal AI Assistant</h3>
+                       <p className="text-green-100 text-sm">Multi-threaded conversations about Pakistan's laws</p>
+                     </div>
+                   </div>
+                   <button
+                     onClick={createNewThread}
+                     className="bg-white text-green-600 px-4 py-2 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm flex items-center gap-2"
+                   >
+                     <PlusIcon className="w-4 h-4" />
+                     New Chat
+                   </button>
+                 </div>
+               </div>
 
-              <div className="space-y-4">
-                {/* Chat Messages */}
-                {aiResponse && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200 max-h-96 overflow-y-auto"
-                  >
-                    <div className="flex items-start gap-3 mb-4">
-                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <ChatBubbleLeftRightIcon className="w-4 h-4 text-white" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900 text-sm sm:text-base mb-2">AI Assistant</h4>
-                        <p className="text-gray-700 whitespace-pre-wrap text-sm sm:text-base leading-relaxed">{aiResponse}</p>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
+               <div className="flex h-[600px]">
+                 {/* Threads Sidebar */}
+                 <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
+                   <div className="p-4 border-b border-gray-200">
+                     <h4 className="font-semibold text-gray-900 mb-2">Conversations</h4>
+                     <p className="text-xs text-gray-600">Your chat history</p>
+                   </div>
+                   
+                   <div className="flex-1 overflow-y-auto">
+                     {chatThreads.length === 0 ? (
+                       <div className="p-4 text-center text-gray-500">
+                         <ChatBubbleLeftRightIcon className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+                         <p className="text-sm">No conversations yet</p>
+                         <p className="text-xs">Start a new chat to begin</p>
+                       </div>
+                     ) : (
+                       <div className="space-y-1 p-2">
+                         {chatThreads.map((thread) => (
+                           <motion.div
+                             key={thread.id}
+                             initial={{ opacity: 0, x: -20 }}
+                             animate={{ opacity: 1, x: 0 }}
+                             className={`p-3 rounded-lg cursor-pointer transition-colors ${
+                               activeThreadId === thread.id
+                                 ? 'bg-green-100 text-green-800 border border-green-200'
+                                 : 'hover:bg-gray-50 text-gray-700'
+                             }`}
+                             onClick={() => setActiveThreadId(thread.id)}
+                           >
+                             <div className="flex items-center justify-between">
+                               <div className="flex-1 min-w-0">
+                                 <h5 className="font-medium text-sm truncate">{thread.title}</h5>
+                                 <p className="text-xs text-gray-500 truncate">
+                                   {thread.messages.length} messages
+                                 </p>
+                               </div>
+                               <button
+                                 onClick={(e) => {
+                                   e.stopPropagation();
+                                   deleteThread(thread.id);
+                                 }}
+                                 className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                               >
+                                 <TrashIcon className="w-4 h-4" />
+                               </button>
+                             </div>
+                           </motion.div>
+                         ))}
+                       </div>
+                     )}
+                   </div>
+                 </div>
 
-                {/* Input Form */}
-                <form onSubmit={handleAiSubmit} className="bg-white p-4 rounded-lg border border-gray-200">
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <input
-                      type="text"
-                      value={aiQuery}
-                      onChange={(e) => setAiQuery(e.target.value)}
-                      placeholder="Ask about any law or act in Pakistan..."
-                      className="flex-1 px-4 py-3 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm sm:text-base bg-white"
-                    />
-                    <button
-                      type="submit"
-                      disabled={isAiLoading}
-                      className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 text-sm sm:text-base flex-shrink-0"
-                    >
-                      {isAiLoading ? (
-                        <div className="flex items-center gap-2">
-                          <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          Thinking...
-                        </div>
-                      ) : (
-                        'Ask'
-                      )}
-                    </button>
-                  </div>
-                </form>
+                 {/* Chat Area */}
+                 <div className="flex-1 flex flex-col">
+                   {activeThreadId ? (
+                     <>
+                       {/* Messages */}
+                       <div className="flex-1 overflow-y-auto p-4 space-y-4  text-gray-600">
+                         {chatThreads.find(t => t.id === activeThreadId)?.messages.map((message) => (
+                           <motion.div
+                             key={message.id}
+                             initial={{ opacity: 0, y: 10 }}
+                             animate={{ opacity: 1, y: 0 }}
+                             className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                           >
+                             <div className={`max-w-[80%] p-3 rounded-lg ${
+                               message.role === 'user'
+                                 ? 'bg-green-600 text-white'
+                                 : 'bg-white border border-gray-200'
+                             }`}>
+                               <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                               <p className={`text-xs mt-1 ${
+                                 message.role === 'user' ? 'text-sm text-gray-600' : 'text-gray-500'
+                               }`}>
+                                 {message.timestamp.toLocaleTimeString()}
+                               </p>
+                             </div>
+                           </motion.div>
+                         ))}
+                         {isAiLoading && (
+                           <motion.div
+                             initial={{ opacity: 0, y: 10 }}
+                             animate={{ opacity: 1, y: 0 }}
+                             className="flex justify-start"
+                           >
+                             <div className="bg-white border border-gray-200 p-3 rounded-lg">
+                               <div className="flex items-center gap-2">
+                                 <div className="w-4 h-4 border-2 border-green-600 border-t-transparent rounded-full animate-spin"></div>
+                                 <span className="text-sm text-gray-600">AI is thinking...</span>
+                               </div>
+                             </div>
+                           </motion.div>
+                         )}
+                         <div className='text-sm text-gray-600' ref={messagesEndRef} />
+                       </div>
 
-                {/* Examples */}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-xs sm:text-sm text-gray-600 mb-3 font-medium">💡 Example questions:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {["What is the Penal Code?", "Explain contract law", "Rights under Constitution"].map((example, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setAiQuery(example)}
-                        className="text-xs sm:text-sm text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-full transition-colors"
-                      >
-                        {example}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+                       {/* Input Form */}
+                       <div className="p-4 border-t border-gray-200">
+                         <form onSubmit={handleAiSubmit} className="flex gap-3">
+                                                       <input
+                              type="text"
+                              value={currentMessage}
+                              onChange={(e) => setCurrentMessage(e.target.value)}
+                              placeholder="Ask about any law or act in Pakistan..."
+                              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm text-gray-900 bg-white"
+                              disabled={isAiLoading}
+                            />
+                           <button
+                             type="submit"
+                             disabled={isAiLoading || !currentMessage.trim()}
+                             className="bg-green-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                           >
+                             <PaperAirplaneIcon className="w-4 h-4" />
+                           </button>
+                         </form>
+                         
+                         {/* Example Questions */}
+                         <div className="mt-3">
+                           <p className="text-xs text-gray-600 mb-2">💡 Try asking:</p>
+                           <div className="flex flex-wrap gap-2">
+                             {["What is the Penal Code?", "Explain contract law", "Rights under Constitution"].map((example, index) => (
+                               <button
+                                 key={index}
+                                 onClick={() => setCurrentMessage(example)}
+                                 className="text-xs text-green-600 hover:text-green-700 bg-green-50 hover:bg-green-100 px-3 py-1 rounded-full transition-colors"
+                               >
+                                 {example}
+                               </button>
+                             ))}
+                           </div>
+                         </div>
+                       </div>
+                     </>
+                   ) : (
+                     <div className="flex-1 flex items-center justify-center">
+                       <div className="text-center text-gray-500">
+                         <ChatBubbleLeftRightIcon className="w-16 h-16 mx-auto mb-4 text-gray-300" />
+                         <h3 className="text-lg font-semibold mb-2">Welcome to Legal AI Assistant</h3>
+                         <p className="text-sm mb-4">Start a new conversation to ask about Pakistan's laws</p>
+                         <button
+                           onClick={createNewThread}
+                           className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+                         >
+                           Start New Chat
+                         </button>
+                       </div>
+                     </div>
+                   )}
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-16">
