@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { simulateGPTResponse } from '@/utils/ai';
+import { callOpenAIAPI } from '../../../utils/ai';
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,9 +12,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // For now, use the simulated response
-    // In production, replace this with actual GPT API call
-    const response = await simulateGPTResponse(message);
+    // Use the OpenAI API for legal assistance
+    const response = await callOpenAIAPI(message);
 
     return NextResponse.json({
       response,

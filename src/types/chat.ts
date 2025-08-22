@@ -1,7 +1,7 @@
 export interface ChatMessage {
   id: string;
-  text: string;
-  sender: 'user' | 'assistant';
+  role: 'user' | 'assistant';
+  content: string;
   timestamp: Date;
 }
 
@@ -11,8 +11,20 @@ export interface ChatState {
   error: string | null;
 }
 
-export interface GPTResponse {
-  text: string;
-  citations?: string[];
-  confidence?: number;
+export interface SearchResult {
+  title: string;
+  act: string;
+  category: string;
+  excerpt: string;
+}
+
+export interface LegalAct {
+  id: number;
+  title: string;
+  year: number;
+  category: string;
+  description: string;
+  sections: number;
+  updated: string;
+  icon: any;
 }

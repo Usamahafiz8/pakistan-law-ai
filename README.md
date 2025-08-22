@@ -1,318 +1,160 @@
-# Legal AI for Pakistan - Next.js Chat Interface
+# LawPak - Acts & Laws of Pakistan
 
-A modern, responsive Next.js application that provides a ChatGPT-like interface for interacting with the Legal AI for Pakistan GPT. This application allows users to ask questions about Pakistani law and receive accurate, structured responses with proper citations.
+A comprehensive one-page website providing access to Pakistan's complete legal database with AI-powered assistance. Built with Next.js, React, and Tailwind CSS.
 
-## 🚀 Features
+## 🌟 Features
 
-### 🎨 Modern UI/UX
-- Clean, professional ChatGPT-like interface built with Next.js 14
-- Responsive design that works on desktop, tablet, and mobile
-- Smooth animations and transitions
-- Auto-resizing text input
-- Loading indicators and visual feedback
-- TypeScript for better development experience
+- **Complete Legal Database**: Access to 500+ Acts and Laws of Pakistan
+- **AI Legal Assistant**: Ask questions about Pakistani laws in plain language
+- **Smart Search**: Intelligent search with legal context understanding
+- **Browse Acts**: Explore laws by category, year, and legal domain
+- **Pakistan Theme**: Beautiful design with Pakistan's national colors
+- **Responsive Design**: Works perfectly on all devices
+- **Real-time AI**: Powered by OpenAI GPT for accurate legal information
 
-### 💬 Chat Functionality
-- Real-time message exchange with React hooks
-- Message history persistence (local storage)
-- Clear chat functionality
-- Copy messages to clipboard
-- Keyboard shortcuts (Enter to send, Ctrl+K to focus)
-- Server-side API routes for better performance
-
-### 🏛️ Legal AI Integration
-- Specialized responses for Pakistani law topics:
-  - Constitutional law and rights
-  - Criminal law (PPC, CrPC)
-  - Civil procedure (CPC)
-  - Family law (MFLO)
-  - Tax law and regulations
-  - Labor and employment law
-  - Cybercrime statutes (PECA)
-  - Case law and precedents
-
-### 🔧 Technical Features
-- Next.js 14 with App Router
-- TypeScript for type safety
-- Tailwind CSS for styling
-- Lucide React icons
-- API routes for backend functionality
-- Local storage for chat history
-- Responsive design with mobile optimization
-- Cross-browser compatibility
-- Accessibility features
-- SEO optimization
-
-## 🛠️ Quick Start
+## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18.0.0 or higher
 - npm or yarn package manager
 
 ### Installation
 
-1. **Clone or download the project**
-   ```bash
-   git clone <repository-url>
-   cd legal-ai-pakistan-chat
-   ```
+1. Clone the repository:
+```bash
+git clone https://github.com/your-username/pakistan-law.git
+cd pakistan-law
+```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
+2. Install dependencies:
+```bash
+npm install
+```
 
-3. **Run the development server**
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
+3. Set up environment variables:
+Create a `.env.local` file in the root directory and add your OpenAI API key:
+```env
+OPENAI_API_KEY=your_openai_api_key_here
+```
 
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+4. Run the development server:
+```bash
+npm run dev
+```
 
-## 📁 Project Structure
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🏗️ Project Structure
 
 ```
-legal-ai-pakistan-chat/
+pakistan-law/
 ├── src/
 │   ├── app/
 │   │   ├── api/
 │   │   │   └── chat/
-│   │   │       └── route.ts          # API route for chat
-│   │   ├── globals.css               # Global styles
-│   │   ├── layout.tsx                # Root layout
-│   │   └── page.tsx                  # Main chat page
+│   │   │       └── route.ts          # AI chat API endpoint
+│   │   ├── globals.css               # Global styles with Pakistan theme
+│   │   ├── layout.tsx                # Root layout with metadata
+│   │   └── page.tsx                  # Main LawPak website
 │   ├── types/
 │   │   └── chat.ts                   # TypeScript types
 │   └── utils/
-│       └── ai.ts                     # AI utility functions
-├── public/                           # Static assets
-├── next.config.js                    # Next.js configuration
-├── tailwind.config.js                # Tailwind CSS configuration
-├── tsconfig.json                     # TypeScript configuration
-├── package.json                      # Dependencies and scripts
-└── README.md                         # This file
+│       └── ai.ts                     # AI integration utilities
+├── public/
+│   └── site.webmanifest              # PWA manifest
+├── package.json
+└── README.md
 ```
 
-## 🔧 Customization
+## 🎨 Design Features
 
-### OpenAI Integration
+### Pakistan Theme
+- **Green Color Scheme**: Uses Pakistan's national green (#059669)
+- **Modern UI**: Clean, professional design with smooth animations
+- **Responsive Layout**: Optimized for desktop, tablet, and mobile
+- **Accessibility**: WCAG compliant with proper contrast ratios
 
-The application is already integrated with OpenAI's GPT API. The integration is handled in `src/utils/ai.ts`:
+### Sections
+1. **Hero Section**: Eye-catching introduction with call-to-action buttons
+2. **Features**: Statistics and key benefits
+3. **Smart Search**: Advanced search functionality with filters
+4. **Browse Acts**: Comprehensive list of Pakistani laws
+5. **AI Assistant**: Interactive legal query system
+6. **Footer**: Contact information and quick links
 
-- **API Client**: Uses OpenAI's official Node.js SDK
-- **Model**: Defaults to `gpt-4o-mini` for cost-effectiveness
-- **System Prompt**: Specialized for Pakistani law expertise
-- **Error Handling**: Graceful fallback to predefined responses
-- **Rate Limiting**: Built-in error handling for API limits
+## 🤖 AI Integration
 
-### Customizing the AI Behavior
+The website includes a sophisticated AI legal assistant that can:
+- Answer questions about Pakistani laws
+- Explain complex legal concepts
+- Provide references to specific sections and articles
+- Offer practical legal guidance
+- Cross-reference related laws and cases
 
-To modify the AI's responses, edit the system prompt in `src/utils/ai.ts`:
+### AI Features
+- **Context Understanding**: Understands legal terminology and context
+- **Accurate Citations**: Provides proper legal references
+- **Plain Language**: Explains complex legal concepts simply
+- **Professional Disclaimer**: Always recommends consulting qualified lawyers
 
-```typescript
-const PAKISTANI_LAW_SYSTEM_PROMPT = `Your custom system prompt here...`;
-```
+## 📱 Technologies Used
 
-### Using Different Models
+- **Next.js 14**: React framework with App Router
+- **React 18**: Modern React with hooks
+- **TypeScript**: Type-safe development
+- **Tailwind CSS**: Utility-first CSS framework
+- **Framer Motion**: Smooth animations and transitions
+- **Heroicons**: Beautiful SVG icons
+- **OpenAI API**: AI-powered legal assistance
 
-To use a different OpenAI model, modify the model parameter in the API call:
+## 🔧 Configuration
 
-```typescript
-const completion = await openai.chat.completions.create({
-  model: "gpt-4", // or "gpt-3.5-turbo", "gpt-4-turbo", etc.
-  // ... other parameters
-});
-```
+### Environment Variables
 
-### Styling Customization
-
-The application uses Tailwind CSS with custom color schemes. Key color variables in `tailwind.config.js`:
-
-```javascript
-colors: {
-  primary: {
-    500: '#667eea', // Main brand color
-    600: '#5a67d8', // Hover state
-  },
-  secondary: {
-    500: '#d946ef', // Secondary color
-  }
-}
-```
-
-### Adding New Legal Topics
-
-The AI is trained on a comprehensive system prompt covering Pakistani law. To add new topics or modify the AI's knowledge, update the `PAKISTANI_LAW_SYSTEM_PROMPT` in `src/utils/ai.ts`:
-
-```typescript
-const PAKISTANI_LAW_SYSTEM_PROMPT = `You are "Pakistani Law Expert (PLE)" - a specialized AI assistant...
-
-**Your Expertise:**
-- Constitutional Law (1973 Constitution)
-- Criminal Law (Pakistan Penal Code, CrPC)
-- Civil Law (Code of Civil Procedure)
-- Family Law (Muslim Family Laws Ordinance)
-- Tax Law (Income Tax Ordinance, Sales Tax)
-- Labor Law (Industrial Relations Act, Factories Act)
-- Cybercrime Law (PECA 2016)
-- Property Law and Land Laws
-- Commercial and Corporate Law
-- Human Rights and Fundamental Rights
-- [Add your new topic here]
-
-...`;
-```
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Deploy automatically
-
-### Netlify
-1. Build the project: `npm run build`
-2. Deploy the `.next` folder to Netlify
-
-### Other Platforms
-- **Railway**: Connect GitHub repository
-- **Heroku**: Add buildpack and deploy
-- **AWS Amplify**: Connect repository and deploy
-- **DigitalOcean App Platform**: Deploy from GitHub
-
-## 🔒 Environment Variables
-
-### OpenAI API Setup
-
-To use the actual GPT functionality, you need to set up your OpenAI API key:
-
-1. **Get an OpenAI API Key**
-   - Visit [OpenAI Platform](https://platform.openai.com/api-keys)
-   - Sign up or log in to your account
-   - Create a new API key
-
-2. **Create Environment File**
-   Create a `.env.local` file in your project root:
+Create a `.env.local` file with the following variables:
 
 ```env
-# OpenAI API Configuration
 OPENAI_API_KEY=your_openai_api_key_here
-
-# Optional: Set a different model (default is gpt-4o-mini)
-# OPENAI_MODEL=gpt-4o-mini
 ```
 
-3. **Restart Development Server**
-   After adding the environment file, restart your development server:
-   ```bash
-   npm run dev
-   ```
+### Customization
 
-### Troubleshooting API Issues
+You can customize the website by:
+- Modifying colors in `tailwind.config.js`
+- Updating legal data in `src/app/page.tsx`
+- Adjusting AI prompts in `src/utils/ai.ts`
+- Changing metadata in `src/app/layout.tsx`
 
-If you're getting fallback responses instead of GPT responses:
+## 📄 Legal Information
 
-1. **Check API Key**: Ensure your API key is valid and has sufficient credits
-2. **Check Console**: Look for error messages in the browser console and terminal
-3. **Verify Environment**: Make sure `.env.local` is in the project root
-4. **Restart Server**: Always restart the dev server after adding environment variables
-
-### Fallback Mode
-
-If no API key is provided, the application will run in fallback mode with predefined responses for demonstration purposes.
-
-## 📱 Browser Support
-
-- ✅ Chrome (latest)
-- ✅ Firefox (latest)
-- ✅ Safari (latest)
-- ✅ Edge (latest)
-- ✅ Mobile browsers
-
-## ⌨️ Keyboard Shortcuts
-
-- **Enter**: Send message
-- **Shift + Enter**: New line
-- **Ctrl/Cmd + K**: Focus input
-- **Ctrl/Cmd + L**: Clear chat
-
-## 💾 Local Storage
-
-The application automatically saves chat history to the browser's local storage. Users can:
-- Continue conversations across browser sessions
-- Clear chat history using the "Clear Chat" button
-- Export chat history (functionality can be added)
-
-## 🔒 Security Considerations
-
-- The current implementation includes basic security headers
-- For production use with real API integration:
-  - Implement proper API key management
-  - Add rate limiting
-  - Use HTTPS
-  - Consider user authentication
-  - Validate and sanitize user inputs
-  - Add CORS protection
-
-## ⚡ Performance Optimization
-
-The Next.js application is optimized for:
-- Fast loading times with App Router
-- Automatic code splitting
-- Image optimization
-- Static generation where possible
-- Efficient client-side navigation
-- Mobile performance
-
-## 🧪 Development
-
-### Available Scripts
-
-```bash
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-```
-
-### Adding New Features
-
-1. Create new components in `src/components/`
-2. Add new API routes in `src/app/api/`
-3. Update types in `src/types/`
-4. Add utility functions in `src/utils/`
+This platform provides information for educational and reference purposes only. Always consult with qualified legal professionals for specific legal advice. The AI assistant provides general guidance and should not be considered as professional legal counsel.
 
 ## 🤝 Contributing
 
-To contribute to this project:
-
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📞 Contact
+
+- **Email**: info@lawpak.gov.pk
+- **Phone**: +92-51-1234-5678
+- **Address**: Islamabad, Pakistan
 
 ## 📄 License
 
-This project is open source and available under the MIT License.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## 🙏 Acknowledgments
 
-For support or questions:
-- Check the documentation
-- Review the code comments
-- Create an issue in the repository
-- Contact the development team
-
-## ⚖️ Legal Disclaimer
-
-This application is designed to provide general legal information about Pakistani law. It is not a substitute for professional legal advice. Users should consult with qualified legal professionals for specific legal matters.
+- Government of Pakistan for legal framework
+- OpenAI for AI capabilities
+- Next.js team for the amazing framework
+- Tailwind CSS for the utility-first approach
 
 ---
 
-**Built with ❤️ for the Pakistani legal community using Next.js 14**
+**Disclaimer**: This is a demonstration website. For official legal information, please visit authorized government portals.

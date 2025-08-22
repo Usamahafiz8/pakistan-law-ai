@@ -1,148 +1,57 @@
-import {OpenAI} from 'openai';
+import { OpenAI } from 'openai';
 
-// Load environment variables only on server side
-if (typeof window === 'undefined') {
-  // Server-side only
-  const dotenv = require('dotenv');
-  dotenv.config();
+// Initialize OpenAI client with environment variable
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+if (!OPENAI_API_KEY) {
+  console.warn('⚠️  OPENAI_API_KEY is not set in environment variables. Please add it to your .env.local file.');
 }
 
-// Initialize OpenAI client with error handling
-let openai: OpenAI | null = null;
+const openai = new OpenAI({
+  apiKey: OPENAI_API_KEY,
+});
 
-try {
-  // Next.js environment variables
-  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-  console.log('🔍 Environment check:');
-  console.log('- OPENAI_API_KEY exists:', !!OPENAI_API_KEY);
-  console.log('- OPENAI_API_KEY starts with sk-:', OPENAI_API_KEY?.startsWith('sk-'));
-  
-  if (!OPENAI_API_KEY) {
-    console.warn('⚠️  OpenAI API key not found. Please set OPENAI_API_KEY in your .env.local file');
-    console.log('📝 Create a .env.local file in your project root with:');
-    console.log('   OPENAI_API_KEY=your_openai_api_key_here');
-  } else {
-    openai = new OpenAI({
-      apiKey: OPENAI_API_KEY,
-    });
-    console.log('✅ OpenAI client initialized successfully');
-  }
-} catch (error) {
-  console.error('❌ OpenAI client initialization failed:', error);
-}
+// System prompt for the AI assistant
+const systemPrompt = `You are a helpful AI legal assistant specializing in Pakistan's Acts and Laws. You provide accurate, informative, and helpful responses about Pakistan's legal framework, including:
 
-// Pakistani Law Expert System Prompt
-const PAKISTANI_LAW_SYSTEM_PROMPT = `You are "Pakistani Law Expert (PLE)" - a specialized AI assistant designed to provide accurate, comprehensive information about Pakistan's legal system, laws, and legal procedures.
+- Pakistan Penal Code (1860)
+- Constitution of Pakistan (1973)
+- Contract Act (1872)
+- Companies Act (2017)
+- Code of Civil Procedure (1908)
+- Code of Criminal Procedure (1898)
+- And other relevant Pakistani laws and regulations
 
-**Your Expertise:**
-- Constitutional Law (1973 Constitution)
-- Criminal Law (Pakistan Penal Code, CrPC)
-- Civil Law (Code of Civil Procedure)
-- Family Law (Muslim Family Laws Ordinance)
-- Tax Law (Income Tax Ordinance, Sales Tax)
-- Labor Law (Industrial Relations Act, Factories Act)
-- Cybercrime Law (PECA 2016)
-- Property Law and Land Laws
-- Commercial and Corporate Law
-- Human Rights and Fundamental Rights
+Guidelines:
+1. Provide accurate information about Pakistani laws
+2. Explain legal concepts in simple, understandable terms
+3. Cite relevant sections and articles when possible
+4. Always clarify that you provide general information and recommend consulting qualified legal professionals for specific legal advice
+5. Be helpful, professional, and respectful
+6. If you're unsure about specific details, acknowledge the limitations and suggest consulting official sources
 
-**Response Guidelines:**
-1. Always provide accurate legal information with specific references to relevant laws, sections, and articles
-2. Include case law citations when applicable
-3. Explain complex legal concepts in simple, understandable language
-4. Provide practical guidance and procedures when relevant
-5. Always clarify that you provide general information and recommend consulting a qualified lawyer for specific legal advice
-6. Use proper legal terminology while remaining accessible
-7. Include relevant statutory provisions and their implications
+Remember: You are an AI assistant providing educational information, not a substitute for professional legal counsel.`;
 
-**Format:**
-- Use clear headings and bullet points for better readability
-- Include relevant law citations in brackets [e.g., Article 9, Constitution of Pakistan 1973]
-- Provide practical examples when helpful
-- End with a disclaimer about consulting legal professionals for specific cases
-
-**Important:** Always remind users that this is general legal information and they should consult qualified legal professionals for their specific legal matters.`;
-
-// Fallback responses for when OpenAI API is not available
-const FALLBACK_RESPONSES = {
-  general: `I'm here to help you with Pakistan's legal system! However, I'm currently running in demo mode. 
-
-To get full AI-powered legal assistance, please:
-1. Get an OpenAI API key from https://platform.openai.com/
-2. Create a .env.local file in your project root
-3. Add: OPENAI_API_KEY=your_api_key_here
-4. Restart the development server
-
-For now, I can provide general information about Pakistan's legal framework. What would you like to know?`,
-
-  specific: (query: string) => `I understand you're asking about "${query}". While I'm in demo mode, here's some general information:
-
-**Pakistan's Legal System Overview:**
-- **Constitution of Pakistan (1973):** The supreme law establishing fundamental rights and government structure
-- **Pakistan Penal Code (1860):** Main criminal code defining crimes and punishments
-- **Code of Civil Procedure (1908):** Rules for civil litigation
-- **Code of Criminal Procedure (1898):** Rules for criminal cases
-
-**For specific legal advice:**
-- Consult qualified legal professionals
-- Visit official government legal portals
-- Contact local bar associations
-
-To get detailed AI assistance, please configure your OpenAI API key as mentioned above.`
-};
-
-// Call OpenAI API for legal assistance
 export async function callOpenAIAPI(userMessage: string): Promise<string> {
-  try {
-    if (!openai) {
-      console.log('OpenAI client not available, using fallback response');
-      return FALLBACK_RESPONSES.general;
-    }
+  if (!OPENAI_API_KEY) {
+    return 'Sorry, the AI assistant is not properly configured. Please check the environment setup.';
+  }
 
-    console.log('Making OpenAI API request...');
+  try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: "gpt-3.5-turbo",
       messages: [
-        {
-          role: "system",
-          content: PAKISTANI_LAW_SYSTEM_PROMPT
-        },
-        {
-          role: "user",
-          content: userMessage
-        }
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userMessage }
       ],
-      max_tokens: 1500,
+      max_tokens: 1000,
       temperature: 0.7,
     });
 
-    const response = completion.choices[0]?.message?.content;
-    if (response) {
-      console.log('OpenAI API response received successfully');
-      return response;
-    } else {
-      console.warn('OpenAI API returned empty response');
-      return 'I apologize, but I was unable to generate a response. Please try again.';
-    }
-  } catch (error: any) {
-    console.error('OpenAI API Error:', error);
-    
-    // Provide more specific error information
-    if (error?.status === 401) {
-      return `Authentication failed. Please check your OpenAI API key.
-      
-**To fix this:**
-1. Get a valid API key from https://platform.openai.com/
-2. Create a .env.local file in your project root
-3. Add: OPENAI_API_KEY=your_valid_api_key_here
-4. Restart the development server`;
-    } else if (error?.status === 429) {
-      return 'Rate limit exceeded. Please try again in a few moments.';
-    } else if (error?.status === 500) {
-      return 'OpenAI service is temporarily unavailable. Please try again later.';
-    } else {
-      return FALLBACK_RESPONSES.specific(userMessage);
-    }
+    return completion.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
+  } catch (error) {
+    console.error('Error calling OpenAI API:', error);
+    return 'Sorry, I encountered an error while processing your request. Please try again.';
   }
 }
 
