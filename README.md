@@ -100,34 +100,33 @@ legal-ai-pakistan-chat/
 
 ## 🔧 Customization
 
-### Changing the GPT Integration
+### OpenAI Integration
 
-Currently, the application uses simulated responses. To integrate with the actual Legal AI GPT:
+The application is already integrated with OpenAI's GPT API. The integration is handled in `src/utils/ai.ts`:
 
-1. **Replace the `simulateGPTResponse` function** in `src/utils/ai.ts` with actual API calls
-2. **Add your API credentials** and authentication
-3. **Update the API route** in `src/app/api/chat/route.ts`
+- **API Client**: Uses OpenAI's official Node.js SDK
+- **Model**: Defaults to `gpt-4o-mini` for cost-effectiveness
+- **System Prompt**: Specialized for Pakistani law expertise
+- **Error Handling**: Graceful fallback to predefined responses
+- **Rate Limiting**: Built-in error handling for API limits
 
-Example API integration:
+### Customizing the AI Behavior
+
+To modify the AI's responses, edit the system prompt in `src/utils/ai.ts`:
 
 ```typescript
-// In src/utils/ai.ts
-export async function callLegalAIGPT(message: string): Promise<string> {
-  const response = await fetch('/api/chat', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer YOUR_API_KEY'
-    },
-    body: JSON.stringify({
-      message,
-      gpt_url: 'https://chatgpt.com/g/g-68a3faea8df08191b9ae0dfc0b486030-legal-ai-for-pakistan'
-    })
-  });
-  
-  const data = await response.json();
-  return data.response;
-}
+const PAKISTANI_LAW_SYSTEM_PROMPT = `Your custom system prompt here...`;
+```
+
+### Using Different Models
+
+To use a different OpenAI model, modify the model parameter in the API call:
+
+```typescript
+const completion = await openai.chat.completions.create({
+  model: "gpt-4", // or "gpt-3.5-turbo", "gpt-4-turbo", etc.
+  // ... other parameters
+});
 ```
 
 ### Styling Customization
@@ -148,12 +147,25 @@ colors: {
 
 ### Adding New Legal Topics
 
-To add support for new legal topics, modify the `simulateGPTResponse` function in `src/utils/ai.ts`:
+The AI is trained on a comprehensive system prompt covering Pakistani law. To add new topics or modify the AI's knowledge, update the `PAKISTANI_LAW_SYSTEM_PROMPT` in `src/utils/ai.ts`:
 
 ```typescript
-if (lowerMessage.includes('your-topic')) {
-  return `Your custom response about the legal topic...`;
-}
+const PAKISTANI_LAW_SYSTEM_PROMPT = `You are "Pakistani Law Expert (PLE)" - a specialized AI assistant...
+
+**Your Expertise:**
+- Constitutional Law (1973 Constitution)
+- Criminal Law (Pakistan Penal Code, CrPC)
+- Civil Law (Code of Civil Procedure)
+- Family Law (Muslim Family Laws Ordinance)
+- Tax Law (Income Tax Ordinance, Sales Tax)
+- Labor Law (Industrial Relations Act, Factories Act)
+- Cybercrime Law (PECA 2016)
+- Property Law and Land Laws
+- Commercial and Corporate Law
+- Human Rights and Fundamental Rights
+- [Add your new topic here]
+
+...`;
 ```
 
 ## 🚀 Deployment
@@ -175,17 +187,44 @@ if (lowerMessage.includes('your-topic')) {
 
 ## 🔒 Environment Variables
 
-Create a `.env.local` file for production:
+### OpenAI API Setup
+
+To use the actual GPT functionality, you need to set up your OpenAI API key:
+
+1. **Get an OpenAI API Key**
+   - Visit [OpenAI Platform](https://platform.openai.com/api-keys)
+   - Sign up or log in to your account
+   - Create a new API key
+
+2. **Create Environment File**
+   Create a `.env.local` file in your project root:
 
 ```env
-# API Configuration
-NEXT_PUBLIC_API_URL=your_api_url
-GPT_API_KEY=your_gpt_api_key
+# OpenAI API Configuration
+OPENAI_API_KEY=your_openai_api_key_here
 
-# Security
-NEXTAUTH_SECRET=your_secret_key
-NEXTAUTH_URL=https://yourdomain.com
+# Optional: Set a different model (default is gpt-4o-mini)
+# OPENAI_MODEL=gpt-4o-mini
 ```
+
+3. **Restart Development Server**
+   After adding the environment file, restart your development server:
+   ```bash
+   npm run dev
+   ```
+
+### Troubleshooting API Issues
+
+If you're getting fallback responses instead of GPT responses:
+
+1. **Check API Key**: Ensure your API key is valid and has sufficient credits
+2. **Check Console**: Look for error messages in the browser console and terminal
+3. **Verify Environment**: Make sure `.env.local` is in the project root
+4. **Restart Server**: Always restart the dev server after adding environment variables
+
+### Fallback Mode
+
+If no API key is provided, the application will run in fallback mode with predefined responses for demonstration purposes.
 
 ## 📱 Browser Support
 

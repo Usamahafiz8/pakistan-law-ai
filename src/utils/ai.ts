@@ -1,221 +1,153 @@
-// GPT Configuration
-export const GPT_URL = 'https://chatgpt.com/g/g-68a3faea8df08191b9ae0dfc0b486030-legal-ai-for-pakistan';
+import OpenAI from 'openai';
+// Initialize OpenAI client with error handling
+let openai: OpenAI | null = null;
 
-// Simulate GPT response (replace with actual API integration)
-export async function simulateGPTResponse(userMessage: string): Promise<string> {
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 1500 + Math.random() * 1000));
+try {
+  // Next.js environment variables
+  const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+  console.log('🔍 Environment check:');
+  console.log('- OPENAI_API_KEY exists:', !!OPENAI_API_KEY);
+  console.log('- OPENAI_API_KEY starts with sk-:', OPENAI_API_KEY?.startsWith('sk-'));
   
-  // Generate contextual responses based on user input
-  const lowerMessage = userMessage.toLowerCase();
-  
-  if (lowerMessage.includes('constitution') || lowerMessage.includes('constitutional')) {
-    return `Based on the Constitution of Pakistan (1973), I can provide you with information about constitutional rights and provisions. 
-
-**Key Constitutional Rights:**
-- Article 9: Security of person
-- Article 10: Safeguards as to arrest and detention
-- Article 14: Inviolability of dignity of man
-- Article 15: Freedom of movement
-- Article 16: Freedom of assembly
-- Article 17: Freedom of association
-- Article 18: Freedom of trade, business or profession
-- Article 19: Freedom of speech
-- Article 20: Freedom to profess religion
-- Article 25: Equality of citizens
-
-Could you please specify which constitutional right or provision you'd like to know more about?`;
+  if (!OPENAI_API_KEY) {
+    console.warn('⚠️  OpenAI API key not found. Please set OPENAI_API_KEY in your .env.local file');
+    console.log('📝 Create a .env.local file in your project root with:');
+    console.log('   OPENAI_API_KEY=your_openai_api_key_here');
+  } else {
+    openai = new OpenAI({
+      apiKey: OPENAI_API_KEY,
+    });
+    console.log('✅ OpenAI client initialized successfully');
   }
-  
-  if (lowerMessage.includes('criminal') || lowerMessage.includes('ppc') || lowerMessage.includes('crpc')) {
-    return `I can help you with Pakistani Criminal Law, which includes:
-
-**Pakistan Penal Code (PPC):**
-- Defines criminal offenses and their punishments
-- Covers crimes against person, property, state, and public tranquility
-- Sections 302-376 cover major criminal offenses
-
-**Code of Criminal Procedure (CrPC):**
-- Governs the procedure for investigation and trial of criminal cases
-- Defines powers of police, courts, and procedures
-- Covers arrest, bail, trial, and appeal procedures
-
-**Common Criminal Offenses:**
-- Murder (Section 302 PPC)
-- Theft (Section 378 PPC)
-- Assault (Section 351 PPC)
-- Defamation (Section 499 PPC)
-
-What specific criminal law question do you have?`;
-  }
-  
-  if (lowerMessage.includes('civil') || lowerMessage.includes('cpc')) {
-    return `I can assist you with Pakistani Civil Law and the Code of Civil Procedure (CPC):
-
-**Code of Civil Procedure (CPC):**
-- Governs civil court procedures
-- Covers filing suits, pleadings, evidence, and judgments
-- Defines jurisdiction of civil courts
-
-**Key Civil Law Areas:**
-- Contract Law
-- Property Law
-- Family Law
-- Tort Law
-- Commercial Law
-
-**Common Civil Procedures:**
-- Filing a civil suit (Order VII CPC)
-- Service of summons (Order V CPC)
-- Written statements (Order VIII CPC)
-- Evidence (Order XVIII CPC)
-- Appeals (Order XLI CPC)
-
-Please specify your civil law question for more detailed information.`;
-  }
-  
-  if (lowerMessage.includes('family') || lowerMessage.includes('marriage') || lowerMessage.includes('mflo')) {
-    return `I can help you with Pakistani Family Law, including the Muslim Family Laws Ordinance (MFLO):
-
-**Muslim Family Laws Ordinance (MFLO):**
-- Governs marriage, divorce, and family matters for Muslims
-- Establishes family courts and procedures
-- Covers maintenance, custody, and inheritance
-
-**Key Family Law Topics:**
-- Marriage registration and requirements
-- Divorce procedures (Talaq, Khula, Faskh)
-- Maintenance and alimony
-- Child custody and guardianship
-- Inheritance and succession
-
-**Family Courts:**
-- Established under Family Courts Act 1964
-- Handle family disputes and matters
-- Provide speedy resolution of family issues
-
-What specific family law matter would you like to discuss?`;
-  }
-  
-  if (lowerMessage.includes('tax') || lowerMessage.includes('income tax')) {
-    return `I can provide information about Pakistani Tax Law:
-
-**Income Tax Ordinance 2001:**
-- Governs income taxation in Pakistan
-- Defines taxable income and tax rates
-- Covers filing requirements and procedures
-
-**Key Tax Topics:**
-- Income tax rates and slabs
-- Tax filing deadlines and procedures
-- Deductions and exemptions
-- Tax appeals and disputes
-- Corporate taxation
-
-**Sales Tax:**
-- Federal and provincial sales tax
-- Registration and filing requirements
-- Input and output tax mechanisms
-
-Please specify your tax-related question for detailed guidance.`;
-  }
-  
-  if (lowerMessage.includes('labor') || lowerMessage.includes('employment') || lowerMessage.includes('worker')) {
-    return `I can assist you with Pakistani Labor Law:
-
-**Key Labor Laws:**
-- Industrial Relations Act 2012
-- Factories Act 1934
-- Shops and Establishments Ordinance 1969
-- Workmen's Compensation Act 1923
-
-**Employee Rights:**
-- Minimum wage requirements
-- Working hours and overtime
-- Leave entitlements (annual, sick, maternity)
-- Termination procedures
-- Social security benefits
-
-**Employer Obligations:**
-- Safe working conditions
-- Payment of wages and benefits
-- Compliance with labor regulations
-- Dispute resolution procedures
-
-What specific labor law question do you have?`;
-  }
-  
-  if (lowerMessage.includes('cyber') || lowerMessage.includes('digital') || lowerMessage.includes('online')) {
-    return `I can help you with Pakistani Cybercrime Law:
-
-**Prevention of Electronic Crimes Act (PECA) 2016:**
-- Criminalizes various cyber offenses
-- Defines electronic evidence procedures
-- Establishes investigation and prosecution mechanisms
-
-**Common Cybercrimes:**
-- Unauthorized access to information systems
-- Electronic fraud and forgery
-- Cyber terrorism
-- Online harassment and defamation
-- Data theft and privacy violations
-
-**Digital Rights:**
-- Right to privacy online
-- Freedom of expression on digital platforms
-- Protection against cyberbullying
-- Data protection and security
-
-Please specify your cybercrime law question for detailed information.`;
-  }
-  
-  // Default response
-  return `Thank you for your question about Pakistani law. I'm your specialized Legal AI assistant for Pakistan, trained to provide accurate information on:
-
-**Areas of Expertise:**
-- Constitutional law and fundamental rights
-- Criminal law (PPC, CrPC)
-- Civil procedure (CPC)
-- Family law (MFLO)
-- Tax law and regulations
-- Labor and employment law
-- Cybercrime statutes (PECA)
-- Relevant case law and precedents
-
-Please ask me a specific legal question related to Pakistani law, and I'll provide you with accurate information including relevant statutes, sections, and case law citations.`;
+} catch (error) {
+  console.error('❌ OpenAI client initialization failed:', error);
 }
 
-// Real API integration function (replace simulateGPTResponse with this)
-export async function callLegalAIGPT(message: string): Promise<string> {
-  try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        message,
-        gpt_url: GPT_URL,
-      }),
-    });
+// Pakistani Law Expert System Prompt
+const PAKISTANI_LAW_SYSTEM_PROMPT = `You are "Pakistani Law Expert (PLE)" - a specialized AI assistant designed to provide accurate, comprehensive information about Pakistan's legal system, laws, and legal procedures.
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+**Your Expertise:**
+- Constitutional Law (1973 Constitution)
+- Criminal Law (Pakistan Penal Code, CrPC)
+- Civil Law (Code of Civil Procedure)
+- Family Law (Muslim Family Laws Ordinance)
+- Tax Law (Income Tax Ordinance, Sales Tax)
+- Labor Law (Industrial Relations Act, Factories Act)
+- Cybercrime Law (PECA 2016)
+- Property Law and Land Laws
+- Commercial and Corporate Law
+- Human Rights and Fundamental Rights
+
+**Response Guidelines:**
+1. Always provide accurate legal information with specific references to relevant laws, sections, and articles
+2. Include case law citations when applicable
+3. Explain complex legal concepts in simple, understandable language
+4. Provide practical guidance and procedures when relevant
+5. Always clarify that you provide general information and recommend consulting a qualified lawyer for specific legal advice
+6. Use proper legal terminology while remaining accessible
+7. Include relevant statutory provisions and their implications
+
+**Format:**
+- Use clear headings and bullet points for better readability
+- Include relevant law citations in brackets [e.g., Article 9, Constitution of Pakistan 1973]
+- Provide practical examples when helpful
+- End with a disclaimer about consulting legal professionals for specific cases
+
+**Important:** Always remind users that this is general legal information and they should consult qualified legal professionals for their specific legal matters.`;
+
+// Fallback responses for when OpenAI API is not available
+const FALLBACK_RESPONSES = {
+  general: `I'm here to help you with Pakistan's legal system! However, I'm currently running in demo mode. 
+
+To get full AI-powered legal assistance, please:
+1. Get an OpenAI API key from https://platform.openai.com/
+2. Create a .env.local file in your project root
+3. Add: OPENAI_API_KEY=your_api_key_here
+4. Restart the development server
+
+For now, I can provide general information about Pakistan's legal framework. What would you like to know?`,
+
+  specific: (query: string) => `I understand you're asking about "${query}". While I'm in demo mode, here's some general information:
+
+**Pakistan's Legal System Overview:**
+- **Constitution of Pakistan (1973):** The supreme law establishing fundamental rights and government structure
+- **Pakistan Penal Code (1860):** Main criminal code defining crimes and punishments
+- **Code of Civil Procedure (1908):** Rules for civil litigation
+- **Code of Criminal Procedure (1898):** Rules for criminal cases
+
+**For specific legal advice:**
+- Consult qualified legal professionals
+- Visit official government legal portals
+- Contact local bar associations
+
+To get detailed AI assistance, please configure your OpenAI API key as mentioned above.`
+};
+
+// Call OpenAI API for legal assistance
+export async function callOpenAIAPI(userMessage: string): Promise<string> {
+  try {
+    if (!openai) {
+      console.log('OpenAI client not available, using fallback response');
+      return FALLBACK_RESPONSES.general;
     }
 
-    const data = await response.json();
-    return data.response;
-  } catch (error) {
-    console.error('Error calling Legal AI GPT:', error);
-    throw error;
+    console.log('Making OpenAI API request...');
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: PAKISTANI_LAW_SYSTEM_PROMPT
+        },
+        {
+          role: "user",
+          content: userMessage
+        }
+      ],
+      max_tokens: 1500,
+      temperature: 0.7,
+    });
+
+    const response = completion.choices[0]?.message?.content;
+    if (response) {
+      console.log('OpenAI API response received successfully');
+      return response;
+    } else {
+      console.warn('OpenAI API returned empty response');
+      return 'I apologize, but I was unable to generate a response. Please try again.';
+    }
+  } catch (error: any) {
+    console.error('OpenAI API Error:', error);
+    
+    // Provide more specific error information
+    if (error?.status === 401) {
+      return `Authentication failed. Please check your OpenAI API key.
+      
+**To fix this:**
+1. Get a valid API key from https://platform.openai.com/
+2. Create a .env.local file in your project root
+3. Add: OPENAI_API_KEY=your_valid_api_key_here
+4. Restart the development server`;
+    } else if (error?.status === 429) {
+      return 'Rate limit exceeded. Please try again in a few moments.';
+    } else if (error?.status === 500) {
+      return 'OpenAI service is temporarily unavailable. Please try again later.';
+    } else {
+      return FALLBACK_RESPONSES.specific(userMessage);
+    }
   }
+}
+
+// Legacy function for backward compatibility
+export async function simulateGPTResponse(userMessage: string): Promise<string> {
+  return callOpenAIAPI(userMessage);
 }
 
 // Utility function to format citations
 export function formatCitations(citations: string[]): string {
   if (!citations || citations.length === 0) return '';
-  
-  return citations.map((citation, index) => 
+
+  return citations.map((citation, index) =>
     `[${index + 1}] ${citation}`
   ).join('\n');
 }
