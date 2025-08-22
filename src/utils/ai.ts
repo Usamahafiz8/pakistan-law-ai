@@ -1,4 +1,12 @@
-import OpenAI from 'openai';
+import {OpenAI} from 'openai';
+
+// Load environment variables only on server side
+if (typeof window === 'undefined') {
+  // Server-side only
+  const dotenv = require('dotenv');
+  dotenv.config();
+}
+
 // Initialize OpenAI client with error handling
 let openai: OpenAI | null = null;
 
