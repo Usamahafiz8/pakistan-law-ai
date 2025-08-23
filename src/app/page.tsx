@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import Link from 'next/link';
 import {
   MagnifyingGlassIcon,
   BookOpenIcon,
@@ -336,9 +337,12 @@ export default function Home() {
               <button className="bg-white text-green-700 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm sm:text-base">
                 Browse Acts & Laws
               </button>
-              <button className="border-2 border-white text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700 transition-colors text-sm sm:text-base">
+              <a href="#ai">
+
+              <button  className="border-2 border-white text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700 transition-colors text-sm sm:text-base">
                 Ask Legal Assistant
               </button>
+              </a>
             </motion.div>
           </div>
         </div>
@@ -392,7 +396,7 @@ export default function Home() {
       </section>
 
       {/* Search Section */}
-      <section id="search" className="py-16 bg-gray-50">
+      {/* <section id="search" className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 px-4">Smart Legal Search</h2>
@@ -480,10 +484,10 @@ export default function Home() {
             )}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Search Features */}
-      <section className="py-16 bg-white">
+      {/* <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <motion.div 
@@ -524,7 +528,7 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Browse Acts Section */}
       <section id="browse" className="py-16 bg-gray-50">
@@ -559,9 +563,9 @@ export default function Home() {
                     <span>{act.sections} sections</span>
                     <span>Updated {act.updated}</span>
                   </div>
-                  <button className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base">
+                  <Link href={`/acts/${act.id}`} className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base block text-center">
                     Read Full Text
-                  </button>
+                  </Link>
                 </motion.div>
               ))}
             </div>
@@ -571,26 +575,27 @@ export default function Home() {
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 px-4">All Acts & Laws</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4">
               {actsData.map((act, index) => (
-                <motion.div 
-                  key={act.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.05 }}
-                  className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <h4 className="text-base sm:text-lg font-semibold text-gray-900">{act.title}</h4>
-                    <span className="text-xs sm:text-sm text-gray-500">({act.year})</span>
-                  </div>
-                  <p className="text-gray-600 mb-3 text-xs sm:text-sm">{act.description}</p>
-                  <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-3">
-                    <span>{act.sections} sections</span>
-                    <span>Updated {act.updated}</span>
-                  </div>
-                  <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                    {act.category}
-                  </span>
-                </motion.div>
+                <Link href={`/acts/${act.id}`} key={act.id}>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.05 }}
+                    className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <h4 className="text-base sm:text-lg font-semibold text-gray-900">{act.title}</h4>
+                      <span className="text-xs sm:text-sm text-gray-500">({act.year})</span>
+                    </div>
+                    <p className="text-gray-600 mb-3 text-xs sm:text-sm">{act.description}</p>
+                    <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-3">
+                      <span>{act.sections} sections</span>
+                      <span>Updated {act.updated}</span>
+                    </div>
+                    <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                      {act.category}
+                    </span>
+                  </motion.div>
+                </Link>
               ))}
             </div>
             <div className="text-center mt-8 px-4">
