@@ -25,6 +25,7 @@ import {
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline';
 import { ChatMessage, ChatThread } from '@/types/chat';
+import PdfButton from '@/components/PdfButton';
 
 // Sample data for acts and laws
 const actsData = [
@@ -36,7 +37,8 @@ const actsData = [
     description: 'The main criminal code of Pakistan, defining crimes and their punishments.',
     sections: 511,
     updated: '2023',
-    icon: ShieldCheckIcon
+    icon: ShieldCheckIcon,
+    pdfUrl: '/pdfs/pakistan-penal-code-1860.pdf'
   },
   {
     id: 2,
@@ -46,7 +48,8 @@ const actsData = [
     description: 'The supreme law of Pakistan, establishing the framework of government and fundamental rights.',
     sections: 280,
     updated: '2023',
-    icon: DocumentTextIcon
+    icon: DocumentTextIcon,
+    pdfUrl: '/pdfs/constitution-of-pakistan-1973.pdf'
   },
   {
     id: 3,
@@ -56,7 +59,8 @@ const actsData = [
     description: 'Governs the law relating to contracts in Pakistan, including formation and enforcement.',
     sections: 238,
     updated: '2022',
-    icon: ScaleIcon
+    icon: ScaleIcon,
+    pdfUrl: '/pdfs/contract-act-1872.pdf'
   },
   {
     id: 4,
@@ -66,7 +70,8 @@ const actsData = [
     description: 'Regulates the incorporation and management of companies in Pakistan.',
     sections: 503,
     updated: '2023',
-    icon: BuildingLibraryIcon
+    icon: BuildingLibraryIcon,
+    pdfUrl: '/pdfs/companies-act-2017.pdf'
   },
   {
     id: 5,
@@ -76,7 +81,8 @@ const actsData = [
     description: 'Provides the procedural framework for civil litigation in Pakistan.',
     sections: 158,
     updated: '2022',
-    icon: AcademicCapIcon
+    icon: AcademicCapIcon,
+    pdfUrl: '/pdfs/code-of-civil-procedure-1908.pdf'
   },
   {
     id: 6,
@@ -86,7 +92,8 @@ const actsData = [
     description: 'Outlines the procedures for criminal cases and law enforcement in Pakistan.',
     sections: 565,
     updated: '2023',
-    icon: ShieldCheckIcon
+    icon: ShieldCheckIcon,
+    pdfUrl: '/pdfs/code-of-criminal-procedure-1898.pdf'
   }
 ];
 
@@ -334,9 +341,11 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center px-4"
             >
+              <a href="#browse">  
               <button className="bg-white text-green-700 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm sm:text-base">
                 Browse Acts & Laws
-              </button>
+              </button></a> 
+              
               <a href="#ai">
 
               <button  className="border-2 border-white text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700 transition-colors text-sm sm:text-base">
@@ -563,9 +572,18 @@ export default function Home() {
                     <span>{act.sections} sections</span>
                     <span>Updated {act.updated}</span>
                   </div>
-                  <Link href={`/acts/${act.id}`} className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base block text-center">
-                    Read Full Text
-                  </Link>
+                  <div className="flex flex-col gap-2">
+                    <Link href={`/acts/${act.id}`} className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base block text-center">
+                      Read Full Text
+                    </Link>
+                    {act.pdfUrl && (
+                      <PdfButton 
+                        pdfUrl={act.pdfUrl} 
+                        title={act.title}
+                        className="w-full"
+                      />
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -575,27 +593,38 @@ export default function Home() {
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 px-4">All Acts & Laws</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4">
               {actsData.map((act, index) => (
-                <Link href={`/acts/${act.id}`} key={act.id}>
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.05 }}
-                    className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <h4 className="text-base sm:text-lg font-semibold text-gray-900">{act.title}</h4>
-                      <span className="text-xs sm:text-sm text-gray-500">({act.year})</span>
-                    </div>
-                    <p className="text-gray-600 mb-3 text-xs sm:text-sm">{act.description}</p>
-                    <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-3">
-                      <span>{act.sections} sections</span>
-                      <span>Updated {act.updated}</span>
-                    </div>
-                    <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                      {act.category}
-                    </span>
-                  </motion.div>
-                </Link>
+                <motion.div 
+                  key={act.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.05 }}
+                  className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <h4 className="text-base sm:text-lg font-semibold text-gray-900">{act.title}</h4>
+                    <span className="text-xs sm:text-sm text-gray-500">({act.year})</span>
+                  </div>
+                  <p className="text-gray-600 mb-3 text-xs sm:text-sm">{act.description}</p>
+                  <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-3">
+                    <span>{act.sections} sections</span>
+                    <span>Updated {act.updated}</span>
+                  </div>
+                  <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded mb-3">
+                    {act.category}
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <Link href={`/acts/${act.id}`} className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base block text-center">
+                      Read Full Text
+                    </Link>
+                    {act.pdfUrl && (
+                      <PdfButton 
+                        pdfUrl={act.pdfUrl} 
+                        title={act.title}
+                        className="w-full"
+                      />
+                    )}
+                  </div>
+                </motion.div>
               ))}
             </div>
             <div className="text-center mt-8 px-4">

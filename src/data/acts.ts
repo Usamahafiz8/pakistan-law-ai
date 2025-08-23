@@ -25,6 +25,7 @@ export interface DetailedAct {
   keyFeatures: string[];
   importantSections: ActSection[];
   fullText: string;
+  pdfUrl?: string; // Optional PDF URL for each act
 }
 
 export const actsDetailedData: Record<number, DetailedAct> = {
@@ -37,6 +38,7 @@ export const actsDetailedData: Record<number, DetailedAct> = {
     sections: 511,
     updated: '2023',
     icon: ShieldCheckIcon,
+    pdfUrl: '/pdfs/pakistan-penal-code-1860.pdf',
     longDescription: `The Pakistan Penal Code (PPC) is the main criminal code of Pakistan. It was originally enacted in 1860 during the British Raj and has been amended several times since Pakistan's independence in 1947. The code defines various crimes and their punishments, serving as the primary source of criminal law in Pakistan.`,
     keyFeatures: [
       'Comprehensive coverage of criminal offenses',
@@ -130,6 +132,7 @@ Explanation 3.—The word "election" denotes an election for the purpose of sele
     sections: 280,
     updated: '2023',
     icon: DocumentTextIcon,
+    pdfUrl: '/pdfs/constitution-of-pakistan-1973.pdf',
     longDescription: `The Constitution of Pakistan is the supreme law of Pakistan. It was adopted on April 12, 1973, and has been amended several times. The constitution establishes the framework for the government of Pakistan and defines the fundamental rights of its citizens. It is the longest constitution in the world and provides for a federal parliamentary system of government.`,
     keyFeatures: [
       'Federal parliamentary democracy',
@@ -213,6 +216,7 @@ Do hereby, through our representatives in the National Assembly, adopt, enact an
     sections: 238,
     updated: '2022',
     icon: ScaleIcon,
+    pdfUrl: '/pdfs/contract-act-1872.pdf',
     longDescription: `The Contract Act, 1872 is a key piece of legislation that governs the law relating to contracts in Pakistan. It defines what constitutes a valid contract, the rights and obligations of parties, and the remedies available for breach of contract. The act is based on English common law principles and has been adapted to suit Pakistani legal requirements.`,
     keyFeatures: [
       'Formation of contracts',
@@ -273,6 +277,7 @@ Commencement.—It shall come into force on the first day of September, 1872.
      sections: 503,
      updated: '2023',
      icon: BuildingLibraryIcon,
+     pdfUrl: '/pdfs/companies-act-2017.pdf',
      longDescription: `The Companies Act, 2017 is a comprehensive piece of legislation that regulates the incorporation, management, and dissolution of companies in Pakistan. It replaced the Companies Ordinance, 1984 and provides a modern legal framework for corporate governance, shareholder rights, and corporate compliance.`,
      keyFeatures: [
        'Company incorporation procedures',
@@ -312,6 +317,7 @@ An Act to consolidate and amend the law relating to companies and to provide for
      sections: 158,
      updated: '2022',
      icon: AcademicCapIcon,
+     pdfUrl: '/pdfs/code-of-civil-procedure-1908.pdf',
      longDescription: `The Code of Civil Procedure, 1908 provides the procedural framework for civil litigation in Pakistan. It governs how civil cases are filed, tried, and decided in courts. The code ensures fair and efficient administration of justice in civil matters and provides various remedies for civil disputes.`,
      keyFeatures: [
        'Civil court procedures',
@@ -351,6 +357,7 @@ An Act to consolidate and amend the laws relating to the procedure of the Courts
      sections: 565,
      updated: '2023',
      icon: ShieldCheckIcon,
+     pdfUrl: '/pdfs/code-of-criminal-procedure-1898.pdf',
      longDescription: `The Code of Criminal Procedure, 1898 provides the procedural framework for criminal cases in Pakistan. It governs how criminal cases are investigated, prosecuted, and tried in courts. The code ensures that criminal justice is administered fairly and efficiently while protecting the rights of both victims and accused persons.`,
      keyFeatures: [
        'Criminal investigation procedures',
