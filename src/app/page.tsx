@@ -391,7 +391,7 @@ export default function Home() {
               <a href="#ai" className="text-gray-700 hover:text-green-600 transition-colors">Ask AI</a>
               {/* <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a> */}
               <a 
-                href="https://calendly.com/cybillnerd/schedule-a-meeting-with-attorney" 
+                href="https://calendly.com/aishhhussain/30min" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium"
@@ -451,7 +451,7 @@ export default function Home() {
               </a>
 
               <a 
-                href="https://calendly.com/cybillnerd/schedule-a-meeting-with-attorney" 
+                href="https://calendly.com/aishhhussain/30min" 
                 target="_blank" 
                 rel="noopener noreferrer"
               >
