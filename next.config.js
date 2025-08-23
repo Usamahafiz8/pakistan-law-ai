@@ -27,6 +27,19 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/pdfs/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/pdf',
+          },
+        ],
+      },
     ];
   },
 };

@@ -22,7 +22,8 @@ import {
   MapPinIcon,
   PlusIcon,
   TrashIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
+  CalendarIcon
 } from '@heroicons/react/24/outline';
 import { ChatMessage, ChatThread } from '@/types/chat';
 import PdfButton from '@/components/PdfButton';
@@ -296,12 +297,21 @@ export default function Home() {
                 <p className="text-sm text-gray-600">Acts & Laws of Pakistan</p>
               </div>
             </div>
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex space-x-8 items-center">
               <a href="#home" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
               <a href="#browse" className="text-gray-700 hover:text-green-600 transition-colors">Browse Acts</a>
-              <a href="#search" className="text-gray-700 hover:text-green-600 transition-colors">Search Laws</a>
+              {/* <a href="#search" className="text-gray-700 hover:text-green-600 transition-colors">Search Laws</a> */}
               <a href="#ai" className="text-gray-700 hover:text-green-600 transition-colors">Ask AI</a>
-              <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a>
+              {/* <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a> */}
+              <a 
+                href="https://calendly.com/cybillnerd/schedule-a-meeting-with-attorney" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium"
+              >
+                <CalendarIcon className="w-4 h-4" />
+                <span>Schedule Consultation</span>
+              </a>
             </nav>
             {/* Mobile menu button */}
             <button className="md:hidden p-2 rounded-lg hover:bg-gray-100">
@@ -345,12 +355,23 @@ export default function Home() {
               <button className="bg-white text-green-700 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm sm:text-base">
                 Browse Acts & Laws
               </button></a> 
-              
+
               <a href="#ai">
 
               <button  className="border-2 border-white text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700 transition-colors text-sm sm:text-base">
                 Ask Legal Assistant
               </button>
+              </a>
+
+              <a 
+                href="https://calendly.com/cybillnerd/schedule-a-meeting-with-attorney" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <button className="border-2 border-green-200 text-green-200 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-green-200 hover:text-green-700 transition-colors text-sm sm:text-base inline-flex items-center gap-2">
+                  <CalendarIcon className="w-4 h-4" />
+                  <span>Schedule Consultation</span>
+                </button>
               </a>
             </motion.div>
           </div>
