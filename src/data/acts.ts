@@ -133,7 +133,7 @@ Explanation 3.—The word "election" denotes an election for the purpose of sele
     sections: 280,
     updated: '2023',
     icon: DocumentTextIcon,
-    pdfUrl: '/pdfs/constitution-of-pakistan-1973.pdf',
+    pdfUrl: '/pdfs/constitution-islamic-republic-of-pakistan-2024-pdf.pdf',
     longDescription: `The Constitution of Pakistan is the supreme law of Pakistan. It was adopted on April 12, 1973, and has been amended several times. The constitution establishes the framework for the government of Pakistan and defines the fundamental rights of its citizens. It is the longest constitution in the world and provides for a federal parliamentary system of government.`,
     keyFeatures: [
       'Federal parliamentary democracy',

@@ -50,7 +50,7 @@ const actsData = [
     sections: 280,
     updated: '2023',
     icon: DocumentTextIcon,
-    pdfUrl: '/pdfs/constitution-of-pakistan-1973.pdf'
+    pdfUrl: '/pdfs/constitution-islamic-republic-of-pakistan-2024-pdf.pdf'
   },
   {
     id: 3,
