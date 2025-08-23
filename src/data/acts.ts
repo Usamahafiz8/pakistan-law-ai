@@ -3,7 +3,8 @@ import {
   DocumentTextIcon,
   ScaleIcon,
   BuildingLibraryIcon,
-  AcademicCapIcon
+  AcademicCapIcon,
+  UserGroupIcon
 } from '@heroicons/react/24/outline';
 
 export interface ActSection {
@@ -385,6 +386,243 @@ ACT NO. V OF 1898
 [22nd March, 1898]
 
 An Act to consolidate and amend the law relating to the Criminal Procedure.
+
+[Continue with full text...]`
+   },
+   7: {
+     id: 7,
+     title: 'Acid Control and Acid Crime Prevention Act',
+     year: 2011,
+     category: 'Criminal Law',
+     description: 'Regulates the sale, purchase, and use of acids and provides for prevention of acid crimes.',
+     sections: 25,
+     updated: '2011',
+     icon: ShieldCheckIcon,
+     pdfUrl: '/pdfs/Acid Control and Acid Crime Prevention Act, 2011.pdf',
+     longDescription: `The Acid Control and Acid Crime Prevention Act, 2011 was enacted to regulate the sale, purchase, and use of acids and to provide for the prevention of acid crimes. The act aims to control the availability of acids and establish strict penalties for acid attacks.`,
+     keyFeatures: [
+       'Regulation of acid sales',
+       'Prevention of acid crimes',
+       'Strict penalties for violations',
+       'Victim protection measures',
+       'Licensing requirements'
+     ],
+     importantSections: [
+       {
+         number: 'Section 3',
+         title: 'Prohibition of sale of acid',
+         content: 'No person shall sell acid to any person without a valid license issued under this Act.'
+       },
+       {
+         number: 'Section 8',
+         title: 'Penalty for acid attack',
+         content: 'Whoever commits an acid attack shall be punished with imprisonment for life and shall also be liable to fine.'
+       }
+     ],
+     fullText: `ACID CONTROL AND ACID CRIME PREVENTION ACT, 2011
+
+[Continue with full text...]`
+   },
+   8: {
+     id: 8,
+     title: 'The Divorce Act',
+     year: 1869,
+     category: 'Family Law',
+     description: 'Governs divorce proceedings for Christians in Pakistan.',
+     sections: 44,
+     updated: '1869',
+     icon: UserGroupIcon,
+     pdfUrl: '/pdfs/THE DIVORCE ACT,1869.pdf',
+     longDescription: `The Divorce Act, 1869 governs divorce proceedings for Christians in Pakistan. It provides the legal framework for dissolution of marriage, grounds for divorce, and procedures for divorce petitions in courts.`,
+     keyFeatures: [
+       'Christian divorce procedures',
+       'Grounds for divorce',
+       'Court jurisdiction',
+       'Maintenance provisions',
+       'Child custody matters'
+     ],
+     importantSections: [
+       {
+         number: 'Section 10',
+         title: 'Grounds for dissolution of marriage',
+         content: 'Any husband may present a petition to the District Court or High Court, praying that his marriage may be dissolved on the ground that his wife has, since the solemnization thereof, been guilty of adultery.'
+       }
+     ],
+     fullText: `THE DIVORCE ACT, 1869
+
+[Continue with full text...]`
+   },
+   9: {
+     id: 9,
+     title: 'Christian Marriage Act',
+     year: 1872,
+     category: 'Family Law',
+     description: 'Regulates Christian marriages in Pakistan.',
+     sections: 88,
+     updated: '1872',
+     icon: UserGroupIcon,
+     pdfUrl: '/pdfs/CHRISTIAN_MARRIAGE_ACT,_1872.doc_.pdf',
+     longDescription: `The Christian Marriage Act, 1872 regulates Christian marriages in Pakistan. It provides the legal framework for solemnization of Christian marriages, registration requirements, and procedures for marriage ceremonies.`,
+     keyFeatures: [
+       'Christian marriage procedures',
+       'Marriage registration',
+       'Officiant requirements',
+       'Marriage certificates',
+       'Legal validity'
+     ],
+     importantSections: [
+       {
+         number: 'Section 4',
+         title: 'Persons by whom marriages may be solemnized',
+         content: 'Every marriage shall be solemnized by a person who has received episcopal ordination, or by a Clergyman of the Church of Scotland, or by a Minister of Religion licensed under this Act to solemnize marriages.'
+       }
+     ],
+     fullText: `CHRISTIAN MARRIAGE ACT, 1872
+
+[Continue with full text...]`
+   },
+   10: {
+     id: 10,
+     title: 'Muslim Family Laws Ordinance',
+     year: 1961,
+     category: 'Family Law',
+     description: 'Regulates Muslim family matters including marriage, divorce, and inheritance.',
+     sections: 13,
+     updated: '1961',
+     icon: UserGroupIcon,
+     pdfUrl: '/pdfs/Muslim-Family-Laws-Ordinance-1961.pdf',
+     longDescription: `The Muslim Family Laws Ordinance, 1961 regulates various aspects of Muslim family law in Pakistan including marriage, divorce, polygamy, and inheritance. It aims to provide a comprehensive framework for Muslim family matters.`,
+     keyFeatures: [
+       'Muslim marriage regulations',
+       'Divorce procedures',
+       'Polygamy restrictions',
+       'Inheritance provisions',
+       'Family courts'
+     ],
+     importantSections: [
+       {
+         number: 'Section 6',
+         title: 'Polygamy',
+         content: 'No man, during the subsistence of an existing marriage, shall, except with the previous permission in writing of the Arbitration Council, contract another marriage.'
+       }
+     ],
+     fullText: `MUSLIM FAMILY LAWS ORDINANCE, 1961
+
+[Continue with full text...]`
+   },
+   11: {
+     id: 11,
+     title: 'Punjab Defamation Act',
+     year: 2024,
+     category: 'Civil Law',
+     description: 'Regulates defamation laws in Punjab province.',
+     sections: 20,
+     updated: '2024',
+     icon: DocumentTextIcon,
+     pdfUrl: '/pdfs/punjab-defamation-act-2024-pdf.pdf',
+     longDescription: `The Punjab Defamation Act, 2024 regulates defamation laws in Punjab province. It provides legal framework for handling defamation cases, protecting reputation, and establishing procedures for defamation suits.`,
+     keyFeatures: [
+       'Defamation definitions',
+       'Civil remedies',
+       'Criminal penalties',
+       'Defense mechanisms',
+       'Damages assessment'
+     ],
+     importantSections: [
+       {
+         number: 'Section 3',
+         title: 'Defamation defined',
+         content: 'Defamation means the publication of a false statement that injures the reputation of a person or entity.'
+       }
+     ],
+     fullText: `PUNJAB DEFAMATION ACT, 2024
+
+[Continue with full text...]`
+   },
+   12: {
+     id: 12,
+     title: 'Pakistan Employment of Children Act',
+     year: 1991,
+     category: 'Labor Law',
+     description: 'Prohibits employment of children and regulates child labor in Pakistan.',
+     sections: 18,
+     updated: '1991',
+     icon: UserGroupIcon,
+     pdfUrl: '/pdfs/pakistan-employment-of-children-act-1991.pdf',
+     longDescription: `The Pakistan Employment of Children Act, 1991 prohibits the employment of children in certain occupations and processes. It aims to protect children from exploitation and ensure their right to education and development.`,
+     keyFeatures: [
+       'Child labor prohibition',
+       'Age restrictions',
+       'Hazardous occupations',
+       'Enforcement mechanisms',
+       'Penalties for violations'
+     ],
+     importantSections: [
+       {
+         number: 'Section 3',
+         title: 'Prohibition of employment of children',
+         content: 'No child shall be required or permitted to work in any establishment or in any class of establishments.'
+       }
+     ],
+     fullText: `PAKISTAN EMPLOYMENT OF CHILDREN ACT, 1991
+
+[Continue with full text...]`
+   },
+   13: {
+     id: 13,
+     title: 'West Pakistan Shops and Establishments Ordinance',
+     year: 1969,
+     category: 'Labor Law',
+     description: 'Regulates working conditions in shops and commercial establishments.',
+     sections: 35,
+     updated: '1969',
+     icon: BuildingLibraryIcon,
+     pdfUrl: '/pdfs/the_west_pakistan_shops_and_establishments_ordinance-_1969-pdf.pdf',
+     longDescription: `The West Pakistan Shops and Establishments Ordinance, 1969 regulates working conditions, hours of work, holidays, and other employment matters in shops and commercial establishments.`,
+     keyFeatures: [
+       'Working hours regulation',
+       'Holiday provisions',
+       'Employment conditions',
+       'Health and safety',
+       'Inspector powers'
+     ],
+     importantSections: [
+       {
+         number: 'Section 8',
+         title: 'Hours of work',
+         content: 'No employee shall be required or permitted to work in any establishment for more than nine hours in any day and forty-eight hours in any week.'
+       }
+     ],
+     fullText: `WEST PAKISTAN SHOPS AND ESTABLISHMENTS ORDINANCE, 1969
+
+[Continue with full text...]`
+   },
+   14: {
+     id: 14,
+     title: 'Juvenile Justice System Act',
+     year: 2018,
+     category: 'Criminal Law',
+     description: 'Provides special procedures for juvenile offenders and their rehabilitation.',
+     sections: 50,
+     updated: '2018',
+     icon: ShieldCheckIcon,
+     pdfUrl: '/pdfs/jjsa2018.pdf',
+     longDescription: `The Juvenile Justice System Act, 2018 provides special procedures for handling juvenile offenders. It focuses on rehabilitation rather than punishment and establishes juvenile courts and rehabilitation centers.`,
+     keyFeatures: [
+       'Juvenile court procedures',
+       'Rehabilitation programs',
+       'Age determination',
+       'Special protections',
+       'Alternative measures'
+     ],
+     importantSections: [
+       {
+         number: 'Section 3',
+         title: 'Definitions',
+         content: '"Juvenile" means a child who has not attained the age of eighteen years at the time of commission of an offence.'
+       }
+     ],
+     fullText: `JUVENILE JUSTICE SYSTEM ACT, 2018
 
 [Continue with full text...]`
    }
