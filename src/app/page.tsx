@@ -285,7 +285,7 @@ export default function Home() {
                 <ScaleIcon className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">LawPak</h1>
+                <h1 className="text-xl font-bold text-gray-900">Adalat</h1>
                 <p className="text-sm text-gray-600">Acts & Laws of Pakistan</p>
               </div>
             </div>
@@ -805,7 +805,7 @@ export default function Home() {
                   <ScaleIcon className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold">LawPak</h3>
+                  <h3 className="text-xl font-bold">Adalat</h3>
                   <p className="text-sm text-gray-400">Acts & Laws of Pakistan</p>
                 </div>
               </div>
@@ -815,7 +815,7 @@ export default function Home() {
               <div className="space-y-2 text-sm text-gray-400">
                 <div className="flex items-center">
                   <EnvelopeIcon className="w-4 h-4 mr-2" />
-                  info@lawpak.gov.pk
+                  info@Adalat.gov.pk
                 </div>
                 <div className="flex items-center">
                   <PhoneIcon className="w-4 h-4 mr-2" />
@@ -854,7 +854,7 @@ export default function Home() {
           <div className="border-t border-gray-800 mt-12 pt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               <p className="text-gray-400 text-xs sm:text-sm text-center sm:text-left">
-                © 2024 LawPak. All rights reserved. | Government of Pakistan
+                © 2024 Adalat. All rights reserved. | Government of Pakistan
               </p>
               <div className="flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-6">
                 <a href="#" className="text-gray-400 hover:text-white text-xs sm:text-sm transition-colors">Privacy Policy</a>
