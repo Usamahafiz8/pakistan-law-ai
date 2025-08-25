@@ -22,9 +22,11 @@ import {
   MapPinIcon,
   PlusIcon,
   TrashIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
+  CalendarIcon
 } from '@heroicons/react/24/outline';
 import { ChatMessage, ChatThread } from '@/types/chat';
+import PdfButton from '@/components/PdfButton';
 
 // Sample data for acts and laws
 const actsData = [
@@ -36,7 +38,8 @@ const actsData = [
     description: 'The main criminal code of Pakistan, defining crimes and their punishments.',
     sections: 511,
     updated: '2023',
-    icon: ShieldCheckIcon
+    icon: ShieldCheckIcon,
+    pdfUrl: '/pdfs/pakistan-penal-code-1860.pdf'
   },
   {
     id: 2,
@@ -46,7 +49,8 @@ const actsData = [
     description: 'The supreme law of Pakistan, establishing the framework of government and fundamental rights.',
     sections: 280,
     updated: '2023',
-    icon: DocumentTextIcon
+    icon: DocumentTextIcon,
+    pdfUrl: '/pdfs/constitution-islamic-republic-of-pakistan-2024-pdf.pdf'
   },
   {
     id: 3,
@@ -56,7 +60,8 @@ const actsData = [
     description: 'Governs the law relating to contracts in Pakistan, including formation and enforcement.',
     sections: 238,
     updated: '2022',
-    icon: ScaleIcon
+    icon: ScaleIcon,
+    pdfUrl: '/pdfs/contract-act-1872.pdf'
   },
   {
     id: 4,
@@ -66,7 +71,8 @@ const actsData = [
     description: 'Regulates the incorporation and management of companies in Pakistan.',
     sections: 503,
     updated: '2023',
-    icon: BuildingLibraryIcon
+    icon: BuildingLibraryIcon,
+    pdfUrl: '/pdfs/companies-act-2017.pdf'
   },
   {
     id: 5,
@@ -76,7 +82,8 @@ const actsData = [
     description: 'Provides the procedural framework for civil litigation in Pakistan.',
     sections: 158,
     updated: '2022',
-    icon: AcademicCapIcon
+    icon: AcademicCapIcon,
+    pdfUrl: '/pdfs/code-of-civil-procedure-1908.pdf'
   },
   {
     id: 6,
@@ -86,7 +93,96 @@ const actsData = [
     description: 'Outlines the procedures for criminal cases and law enforcement in Pakistan.',
     sections: 565,
     updated: '2023',
-    icon: ShieldCheckIcon
+    icon: ShieldCheckIcon,
+    pdfUrl: '/pdfs/code-of-criminal-procedure-1898.pdf'
+  },
+  {
+    id: 7,
+    title: 'Acid Control and Acid Crime Prevention Act',
+    year: 2011,
+    category: 'Criminal Law',
+    description: 'Regulates the sale, purchase, and use of acids and provides for prevention of acid crimes.',
+    sections: 25,
+    updated: '2011',
+    icon: ShieldCheckIcon,
+    pdfUrl: '/pdfs/Acid Control and Acid Crime Prevention Act, 2011.pdf'
+  },
+  {
+    id: 8,
+    title: 'The Divorce Act',
+    year: 1869,
+    category: 'Family Law',
+    description: 'Governs divorce proceedings for Christians in Pakistan.',
+    sections: 44,
+    updated: '1869',
+    icon: UserGroupIcon,
+    pdfUrl: '/pdfs/THE DIVORCE ACT,1869.pdf'
+  },
+  {
+    id: 9,
+    title: 'Christian Marriage Act',
+    year: 1872,
+    category: 'Family Law',
+    description: 'Regulates Christian marriages in Pakistan.',
+    sections: 88,
+    updated: '1872',
+    icon: UserGroupIcon,
+    pdfUrl: '/pdfs/CHRISTIAN_MARRIAGE_ACT,_1872.doc_.pdf'
+  },
+  {
+    id: 10,
+    title: 'Muslim Family Laws Ordinance',
+    year: 1961,
+    category: 'Family Law',
+    description: 'Regulates Muslim family matters including marriage, divorce, and inheritance.',
+    sections: 13,
+    updated: '1961',
+    icon: UserGroupIcon,
+    pdfUrl: '/pdfs/Muslim-Family-Laws-Ordinance-1961.pdf'
+  },
+  {
+    id: 11,
+    title: 'Punjab Defamation Act',
+    year: 2024,
+    category: 'Civil Law',
+    description: 'Regulates defamation laws in Punjab province.',
+    sections: 20,
+    updated: '2024',
+    icon: DocumentTextIcon,
+    pdfUrl: '/pdfs/punjab-defamation-act-2024-pdf.pdf'
+  },
+  {
+    id: 12,
+    title: 'Pakistan Employment of Children Act',
+    year: 1991,
+    category: 'Labor Law',
+    description: 'Prohibits employment of children and regulates child labor in Pakistan.',
+    sections: 18,
+    updated: '1991',
+    icon: UserGroupIcon,
+    pdfUrl: '/pdfs/pakistan-employment-of-children-act-1991.pdf'
+  },
+  {
+    id: 13,
+    title: 'West Pakistan Shops and Establishments Ordinance',
+    year: 1969,
+    category: 'Labor Law',
+    description: 'Regulates working conditions in shops and commercial establishments.',
+    sections: 35,
+    updated: '1969',
+    icon: BuildingLibraryIcon,
+    pdfUrl: '/pdfs/the_west_pakistan_shops_and_establishments_ordinance-_1969-pdf.pdf'
+  },
+  {
+    id: 14,
+    title: 'Juvenile Justice System Act',
+    year: 2018,
+    category: 'Criminal Law',
+    description: 'Provides special procedures for juvenile offenders and their rehabilitation.',
+    sections: 50,
+    updated: '2018',
+    icon: ShieldCheckIcon,
+    pdfUrl: '/pdfs/jjsa2018.pdf'
   }
 ];
 
@@ -173,14 +269,13 @@ export default function Home() {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [chatThreads]);
+  // useEffect(() => {
+  //   scrollToBottom();
+  // }, [chatThreads]);
 
   const handleAiSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!currentMessage.trim() || !activeThreadId) return;
-
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: 'user',
@@ -289,12 +384,21 @@ export default function Home() {
                 <p className="text-sm text-gray-600">Acts & Laws of Pakistan</p>
               </div>
             </div>
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex space-x-8 items-center">
               <a href="#home" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
               <a href="#browse" className="text-gray-700 hover:text-green-600 transition-colors">Browse Acts</a>
-              <a href="#search" className="text-gray-700 hover:text-green-600 transition-colors">Search Laws</a>
+              {/* <a href="#search" className="text-gray-700 hover:text-green-600 transition-colors">Search Laws</a> */}
               <a href="#ai" className="text-gray-700 hover:text-green-600 transition-colors">Ask AI</a>
-              <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a>
+              {/* <a href="#about" className="text-gray-700 hover:text-green-600 transition-colors">About</a> */}
+              <a 
+                href="https://calendly.com/aishhhussain/30min" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium"
+              >
+                <CalendarIcon className="w-4 h-4" />
+                <span>Schedule Consultation</span>
+              </a>
             </nav>
             {/* Mobile menu button */}
             <button className="md:hidden p-2 rounded-lg hover:bg-gray-100">
@@ -334,14 +438,27 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-4 justify-center px-4"
             >
+              <a href="#browse">  
               <button className="bg-white text-green-700 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-green-50 transition-colors text-sm sm:text-base">
                 Browse Acts & Laws
-              </button>
+              </button></a> 
+
               <a href="#ai">
 
               <button  className="border-2 border-white text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-green-700 transition-colors text-sm sm:text-base">
                 Ask Legal Assistant
               </button>
+              </a>
+
+              <a 
+                href="https://calendly.com/aishhhussain/30min" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <button className="border-2 border-green-200 text-green-200 px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-green-200 hover:text-green-700 transition-colors text-sm sm:text-base inline-flex items-center gap-2">
+                  <CalendarIcon className="w-4 h-4" />
+                  <span>Schedule Consultation</span>
+                </button>
               </a>
             </motion.div>
           </div>
@@ -563,9 +680,18 @@ export default function Home() {
                     <span>{act.sections} sections</span>
                     <span>Updated {act.updated}</span>
                   </div>
-                  <Link href={`/acts/${act.id}`} className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base block text-center">
-                    Read Full Text
-                  </Link>
+                  <div className="flex flex-col gap-2">
+                    <Link href={`/acts/${act.id}`} className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base block text-center">
+                      Read Full Text
+                    </Link>
+                    {act.pdfUrl && (
+                      <PdfButton 
+                        pdfUrl={act.pdfUrl} 
+                        title={act.title}
+                        className="w-full"
+                      />
+                    )}
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -575,27 +701,38 @@ export default function Home() {
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6 px-4">All Acts & Laws</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 px-4">
               {actsData.map((act, index) => (
-                <Link href={`/acts/${act.id}`} key={act.id}>
-                  <motion.div 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.05 }}
-                    className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
-                  >
-                    <div className="flex items-start justify-between mb-3">
-                      <h4 className="text-base sm:text-lg font-semibold text-gray-900">{act.title}</h4>
-                      <span className="text-xs sm:text-sm text-gray-500">({act.year})</span>
-                    </div>
-                    <p className="text-gray-600 mb-3 text-xs sm:text-sm">{act.description}</p>
-                    <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-3">
-                      <span>{act.sections} sections</span>
-                      <span>Updated {act.updated}</span>
-                    </div>
-                    <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
-                      {act.category}
-                    </span>
-                  </motion.div>
-                </Link>
+                <motion.div 
+                  key={act.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.05 }}
+                  className="bg-white p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <h4 className="text-base sm:text-lg font-semibold text-gray-900">{act.title}</h4>
+                    <span className="text-xs sm:text-sm text-gray-500">({act.year})</span>
+                  </div>
+                  <p className="text-gray-600 mb-3 text-xs sm:text-sm">{act.description}</p>
+                  <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 mb-3">
+                    <span>{act.sections} sections</span>
+                    <span>Updated {act.updated}</span>
+                  </div>
+                  <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded mb-3">
+                    {act.category}
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <Link href={`/acts/${act.id}`} className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors text-sm sm:text-base block text-center">
+                      Read Full Text
+                    </Link>
+                    {act.pdfUrl && (
+                      <PdfButton 
+                        pdfUrl={act.pdfUrl} 
+                        title={act.title}
+                        className="w-full"
+                      />
+                    )}
+                  </div>
+                </motion.div>
               ))}
             </div>
             <div className="text-center mt-8 px-4">

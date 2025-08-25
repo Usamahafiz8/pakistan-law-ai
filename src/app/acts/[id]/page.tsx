@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 import { actsDetailedData } from '@/data/acts';
+import PdfButton from '@/components/PdfButton';
 
 export default function ActPage() {
   const params = useParams();
@@ -78,7 +79,15 @@ export default function ActPage() {
                 </div>
               </div>
             </div>
-            <p className="text-lg text-gray-700 leading-relaxed">{act.longDescription}</p>
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">{act.longDescription}</p>
+            {act.pdfUrl && (
+              <div className="flex justify-start">
+                <PdfButton 
+                  pdfUrl={act.pdfUrl} 
+                  title={act.title}
+                />
+              </div>
+            )}
           </div>
 
           {/* Key Features */}
